@@ -22,6 +22,6 @@ class MyTestCase(unittest.TestCase):
             Requirement(rq_group="123", line_type="RQ", rqs_typ="PRE", operator="EQ", conn="AND", rqrmnt="456"),
             Requirement(rq_group="456", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
         )
-        self.assertEqual({"123": "(123456 & 444444)"}, sift(requirements))
+        self.assertEqual({"123": "(123456 & 444444)", "456": "444444"}, sift(requirements))
 if __name__ == '__main__':
     unittest.main()
