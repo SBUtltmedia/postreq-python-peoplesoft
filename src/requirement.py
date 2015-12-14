@@ -33,6 +33,8 @@ def sift_single(all_requirements, requirement):
         return sift_rq_group(all_requirements, requirement.rqrmnt)
     if requirement.line_type == "COND":
         return None
+    if requirement.line_type == "CRSW":
+        return None
 
 
 def sift_multiple(all_requirements, requirements):
