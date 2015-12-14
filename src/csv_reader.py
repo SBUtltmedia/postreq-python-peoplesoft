@@ -1,6 +1,9 @@
 import csv
+
 from course import Course
-from requirement import Requirement
+
+from src.requirement import Requirement
+
 
 class CourseOfferings:
     FILE = 'data/TLT_COURSE_OFFERINGS.csv'
@@ -22,6 +25,7 @@ class ReqGroupDetails:
         COND_CODE = 9
         OPERATOR = 10
         VALUE = 11
+        PTRN_TYPE = 16
         COURSE_ID = 17
         CONN = 32
         PARENTH = 33
@@ -55,6 +59,7 @@ def read_requirements():
                 cond_code=line[ReqGroupDetails.Column.COND_CODE],
                 operator=line[ReqGroupDetails.Column.OPERATOR],
                 value=line[ReqGroupDetails.Column.VALUE],
+                ptrn_type=line[ReqGroupDetails.Column.PTRN_TYPE],
                 course_id=line[ReqGroupDetails.Column.COURSE_ID],
                 conn=line[ReqGroupDetails.Column.CONN],
                 parenth=line[ReqGroupDetails.Column.PARENTH]
