@@ -23,5 +23,11 @@ class MyTestCase(unittest.TestCase):
             Requirement(rq_group="456", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
         )
         self.assertEqual({"123": "(123456 & 444444)", "456": "444444"}, sift(requirements))
+
+    def test_condition(self):
+        requirements = (
+            Requirement(rq_group="123", line_type="COND", cond_code="LVL", value="U4", operator="EQ"),
+        )
+        self.assertEqual({}, sift(requirements))
 if __name__ == '__main__':
     unittest.main()

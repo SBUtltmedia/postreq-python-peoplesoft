@@ -29,9 +29,10 @@ def map_conn(requirement):
 def sift_single(all_requirements, requirement):
     if requirement.line_type == "CRSE":
         return requirement.course_id
-    else:
-        if requirement.line_type == "RQ":
-            return sift_rq_group(all_requirements, requirement.rqrmnt)
+    if requirement.line_type == "RQ":
+        return sift_rq_group(all_requirements, requirement.rqrmnt)
+    if requirement.line_type == "COND":
+        return None
 
 
 def sift_multiple(all_requirements, requirements):
@@ -61,6 +62,8 @@ def sift(requirements):
     sifted_reqs = {}
     rq_groups = frozenset(map(lambda r: r.rq_group, requirements))
     for group in rq_groups:
-        sifted_reqs[group] = sift_rq_group(requirements, group)
+        reqs = sift_rq_group(requirements, group)
+        if reqs:
+            sifted_reqs[group] = reqs
     return sifted_reqs
 
