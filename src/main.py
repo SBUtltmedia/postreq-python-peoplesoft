@@ -4,11 +4,18 @@ import json
 #import cProfile
 
 
+def get_requirement(requirements, course):
+    if course.rq_group is not None:
+        if requirements.contains(course.rq.group):
+            return requirements[course.rq_group]
+    return ""
+
+
 def match_requirements_to_course(requirements, course):
     return {
         "course_id": course.course_id,
         "name": str(course),
-        "requirements": requirements[course.rq_group] if course.rq_group else ""
+        "requirements": get_requirement(requirements, course)
     }
 
 
@@ -20,6 +27,11 @@ def replace_course_ids_with_catalog_numbers(requirements, courses):
     def f(r):
         for course in courses:
             r.replace(course.course_id, str(course))
+
+    for group, req in requirements.items():
+        if req is None:
+            print(group)
+
     return {group: f(reqs) for group, reqs in requirements.items()}
 
 

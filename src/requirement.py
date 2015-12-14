@@ -37,16 +37,20 @@ def sift_single(all_requirements, requirement):
     if requirement.line_type == "RQ":
         return sift_rq_group(all_requirements, requirement.rqrmnt)
     if requirement.line_type == "COND":
-        return requirement.value
+        if requirement.value is not None:
+            return requirement.value
     if requirement.line_type == "CRSW":
-        if requirement.designation:
+        if requirement.designation is not None:
             return requirement.designation
-        elif requirement.subject:
-            return requirement.subject + " " + requirement.catalog if requirement.catalog else ""
-        elif requirement.acad_group:
-            return requirement.acad_group + " " + requirement.catalog if requirement.catalog else ""
-        else:
-            raise Exception("Requirement " + requirement.rq_group)
+        elif requirement.subject is not None:
+            return requirement.subject + " " + (requirement.catalog if requirement.catalog is not None else "")
+        elif requirement.acad_group is not None:
+            if requirement.catalog is not None:
+                return requirement.acad_group + " " + requirement.catalog
+            elif requirement.subject is not None:
+                return requirement.acad_group + " " + requirement.subject
+    #raise Exception("Requirement " + requirement.rq_group)
+    return requirement.cond_code
 
 
 def sift_multiple(all_requirements, requirements):
