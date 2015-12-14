@@ -26,9 +26,12 @@ class ReqGroupDetails:
         COND_CODE = 9
         OPERATOR = 10
         VALUE = 11
+        ACAD_GROUP = 13
         SUBJECT = 14
+        CATALOG = 15
         PTRN_TYPE = 16
         COURSE_ID = 17
+        DESIGNATION = 31
         CONN = 32
         PARENTH = 33
 
@@ -62,9 +65,12 @@ def read_requirements():
                 cond_code=line[ReqGroupDetails.Column.COND_CODE],
                 operator=line[ReqGroupDetails.Column.OPERATOR],
                 value=line[ReqGroupDetails.Column.VALUE],
-                subject=line[ReqGroupDetails.Column.VALUE],
+                acad_group=line[ReqGroupDetails.Column.ACAD_GROUP],
+                subject=line[ReqGroupDetails.Column.SUBJECT],
+                catalog=line[ReqGroupDetails.Column.CATALOG],
                 ptrn_type=line[ReqGroupDetails.Column.PTRN_TYPE],
                 course_id=line[ReqGroupDetails.Column.COURSE_ID],
+                designation=line[ReqGroupDetails.Column.DESIGNATION],
                 conn=line[ReqGroupDetails.Column.CONN],
                 parenth=line[ReqGroupDetails.Column.PARENTH]
             ))

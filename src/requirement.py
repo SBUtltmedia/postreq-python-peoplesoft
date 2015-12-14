@@ -1,19 +1,23 @@
-from src.utils import trim
+from src.utils import trim, trim_leading_zeroes
 
 
 class Requirement:
     def __init__(self, rq_group, line_type, rqs_typ=None, rqrmnt=None, cond_code=None, operator=None, value=None,
-                 subject=None, ptrn_type=None, course_id=None, conn=None, parenth=None):
-        self.rq_group = trim(rq_group)
+                 acad_group=None, subject=None, catalog=None, ptrn_type=None, course_id=None, designation=None,
+                 conn=None, parenth=None):
+        self.rq_group = trim_leading_zeroes(trim(rq_group))
         self.line_type = trim(line_type)
         self.rqs_typ = trim(rqs_typ)
         self.rqrmnt = trim(rqrmnt)
         self.cond_code = trim(cond_code)
         self.operator = trim(operator)
         self.value = trim(value)
+        self.acad_group = trim(acad_group)
         self.subject = trim(subject)
+        self.catalog = trim(catalog)
         self.ptrn_type = trim(ptrn_type)
         self.course_id = trim(course_id)
+        self.designation = trim(designation)
         self.conn = trim(conn)
         self.parenth = trim(parenth)
 
@@ -35,7 +39,14 @@ def sift_single(all_requirements, requirement):
     if requirement.line_type == "COND":
         return requirement.value
     if requirement.line_type == "CRSW":
-        return requirement.subject + " ###"
+        if requirement.designation:
+            return requirement.designation
+        elif requirement.subject:
+            return requirement.subject + " " + requirement.catalog if requirement.catalog else ""
+        elif requirement.acad_group:
+            return requirement.acad_group + " " + requirement.catalog if requirement.catalog else ""
+        else:
+            raise Exception("Requirement " + requirement.rq_group)
 
 
 def sift_multiple(all_requirements, requirements):
