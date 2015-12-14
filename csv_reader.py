@@ -27,15 +27,15 @@ class ReqGroupDetails:
         PARENTH = 33
 
 
-courses = []
-with open(CourseOfferings.FILE, 'r') as csvfile:
-    reader = csv.reader(csvfile)
-    next(reader)  # skip header row
-    for line in reader:
-        courses.append(Course(
-            course_id=line[CourseOfferings.Column.COURSE_ID],
-            subject=line[CourseOfferings.Column.SUBJECT],
-            catalog=line[CourseOfferings.Column.CATALOG]
-        ))
-
-print(courses)
+def read():
+    courses = []
+    with open(CourseOfferings.FILE, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # skip header row
+        for line in reader:
+            courses.append(Course(
+                course_id=line[CourseOfferings.Column.COURSE_ID],
+                subject=line[CourseOfferings.Column.SUBJECT],
+                catalog=line[CourseOfferings.Column.CATALOG]
+            ))
+    return courses
