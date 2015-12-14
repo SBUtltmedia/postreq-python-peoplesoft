@@ -31,11 +31,11 @@ def sift_single(all_requirements, requirement):
         return requirement.course_id
     else:
         if requirement.line_type == "RQ":
-            return "CLAWS"
+            return sift_rq_group(all_requirements, requirement.rqrmnt)
 
 
 def sift_multiple(all_requirements, requirements):
-    pieces = tuple(map(lambda r: sift_rq_group(all_requirements, (r,)), requirements))
+    pieces = tuple(map(lambda r: sift_single(all_requirements, r), requirements))
     conns = tuple(map(map_conn, requirements))
     parens = tuple(map(lambda r: r.parenth, requirements))
     string = "("
@@ -49,7 +49,8 @@ def sift_multiple(all_requirements, requirements):
     return string + ")"
 
 
-def sift_rq_group(all_requirements, rqs):
+def sift_rq_group(all_requirements, group):
+    rqs = tuple(filter(lambda r: r.rq_group == group, all_requirements))
     if len(rqs) == 1:
         return sift_single(all_requirements, rqs[0])
     else:
@@ -60,7 +61,6 @@ def sift(requirements):
     sifted_reqs = {}
     rq_groups = frozenset(map(lambda r: r.rq_group, requirements))
     for group in rq_groups:
-        rqs = tuple(filter(lambda r: r.rq_group == group, requirements))
-        sifted_reqs[group] = sift_rq_group(requirements, rqs)
+        sifted_reqs[group] = sift_rq_group(requirements, group)
     return sifted_reqs
 
