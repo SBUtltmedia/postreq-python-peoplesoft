@@ -1,5 +1,5 @@
 from src.utils import trim
-    
+
 
 class Requirement:
     def __init__(self, rq_group, line_type, rqs_typ=None, rqrmnt=None, cond_code=None, operator=None, value=None,
@@ -17,10 +17,10 @@ class Requirement:
         self.parenth = trim(parenth)
 
 
-def map_operator(requirement):
-    if requirement.operator == "AND":
+def map_conn(requirement):
+    if requirement.conn == "AND":
         return " & "
-    elif requirement.operator == "OR":
+    elif requirement.conn == "OR":
         return " | "
     else:
         return ""
@@ -36,13 +36,13 @@ def sift_single(all_requirements, requirement):
 
 def sift_multiple(all_requirements, requirements):
     pieces = tuple(map(lambda r: sift_rq_group(all_requirements, (r,)), requirements))
-    operators = tuple(map(map_operator, requirements))
+    conns = tuple(map(map_conn, requirements))
     parens = tuple(map(lambda r: r.parenth, requirements))
     string = "("
     for i, piece in enumerate(pieces):
         if parens[i] == "(":
             string += "("
-        string += operators[i]
+        string += conns[i]
         string += piece
         if parens[i] == ")":
             string += ")"
