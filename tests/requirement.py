@@ -28,6 +28,7 @@ class MyTestCase(unittest.TestCase):
         requirements = (
             Requirement(rq_group="123", line_type="COND", cond_code="LVL", value="U4", operator="EQ"),
         )
-        self.assertEqual({}, sift(requirements))
+        self.assertEqual({"123": "U4"}, sift(requirements))
+
 if __name__ == '__main__':
     unittest.main()

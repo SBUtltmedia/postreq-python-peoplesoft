@@ -26,6 +26,7 @@ class ReqGroupDetails:
         COND_CODE = 9
         OPERATOR = 10
         VALUE = 11
+        SUBJECT = 14
         PTRN_TYPE = 16
         COURSE_ID = 17
         CONN = 32
@@ -61,6 +62,7 @@ def read_requirements():
                 cond_code=line[ReqGroupDetails.Column.COND_CODE],
                 operator=line[ReqGroupDetails.Column.OPERATOR],
                 value=line[ReqGroupDetails.Column.VALUE],
+                subject=line[ReqGroupDetails.Column.VALUE],
                 ptrn_type=line[ReqGroupDetails.Column.PTRN_TYPE],
                 course_id=line[ReqGroupDetails.Column.COURSE_ID],
                 conn=line[ReqGroupDetails.Column.CONN],

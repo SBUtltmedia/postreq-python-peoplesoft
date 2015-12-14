@@ -1,4 +1,4 @@
-from src.utils import trim
+from src.utils import trim, trim_leading_zeroes
 
 
 class Course:
@@ -6,7 +6,7 @@ class Course:
         self.course_id = trim(course_id)
         self.subject = trim(subject)
         self.catalog = trim(catalog)
-        self.rq_group = trim(rq_group)
+        self.rq_group = trim_leading_zeroes(trim(rq_group))
 
     def __repr__(self):
         return self.subject + " " + self.catalog
