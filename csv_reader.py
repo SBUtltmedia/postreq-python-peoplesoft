@@ -1,6 +1,6 @@
 import csv
 from course import Course
-
+from requirement import Requirement
 
 class CourseOfferings:
     FILE = 'data/TLT_COURSE_OFFERINGS.csv'
@@ -27,7 +27,7 @@ class ReqGroupDetails:
         PARENTH = 33
 
 
-def read():
+def read_courses():
     courses = []
     with open(CourseOfferings.FILE, 'r') as csvfile:
         reader = csv.reader(csvfile)
@@ -39,3 +39,24 @@ def read():
                 catalog=line[CourseOfferings.Column.CATALOG]
             ))
     return courses
+
+
+def read_requirements():
+    requirements = []
+    with open(ReqGroupDetails.FILE, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        next(reader)  # skip header row
+        for line in reader:
+            requirements.append(Requirement(
+                rq_group=line[ReqGroupDetails.Column.RQ_GROUP],
+                line_type=line[ReqGroupDetails.Column.LINE_TYPE],
+                rqs_typ=line[ReqGroupDetails.Column.RQS_TYP],
+                rqrmnt=line[ReqGroupDetails.Column.RQRMNT],
+                cond_code=line[ReqGroupDetails.Column.COND_CODE],
+                operator=line[ReqGroupDetails.Column.OPERATOR],
+                value=line[ReqGroupDetails.Column.VALUE],
+                course_id=line[ReqGroupDetails.Column.COURSE_ID],
+                conn=line[ReqGroupDetails.Column.CONN],
+                parenth=line[ReqGroupDetails.Column.PARENTH]
+            ))
+    return requirements
