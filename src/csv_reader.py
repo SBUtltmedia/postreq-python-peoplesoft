@@ -1,6 +1,6 @@
 import csv
 
-from course import Course
+from src.course import Course
 
 from src.requirement import Requirement
 
@@ -12,6 +12,7 @@ class CourseOfferings:
         COURSE_ID = 0
         SUBJECT = 5
         CATALOG = 6
+        RQ_GROUP = 16
 
 
 class ReqGroupDetails:
@@ -40,7 +41,8 @@ def read_courses():
             courses.append(Course(
                 course_id=line[CourseOfferings.Column.COURSE_ID],
                 subject=line[CourseOfferings.Column.SUBJECT],
-                catalog=line[CourseOfferings.Column.CATALOG]
+                catalog=line[CourseOfferings.Column.CATALOG],
+                rq_group=line[CourseOfferings.Column.RQ_GROUP]
             ))
     return courses
 
