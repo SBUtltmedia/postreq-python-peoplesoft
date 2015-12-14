@@ -19,28 +19,48 @@ class Requirement:
 
 def map_operator(requirement):
     if requirement.operator == "AND":
-        return "&"
+        return " & "
     elif requirement.operator == "OR":
-        return "|"
+        return " | "
+    else:
+        return ""
+
+
+def sift_single(all_requirements, requirement):
+    if requirement.line_type == "CRSE":
+        return requirement.course_id
+    else:
+        if requirement.line_type == "RQ":
+            return "CLAWS"
+
+
+def sift_multiple(all_requirements, requirements):
+    pieces = tuple(map(lambda r: sift_rq_group(all_requirements, (r,)), requirements))
+    operators = tuple(map(map_operator, requirements))
+    parens = tuple(map(lambda r: r.parenth, requirements))
+    string = "("
+    for i, piece in enumerate(pieces):
+        if parens[i] == "(":
+            string += "("
+        string += operators[i]
+        string += piece
+        if parens[i] == ")":
+            string += ")"
+    return string + ")"
+
+
+def sift_rq_group(all_requirements, rqs):
+    if len(rqs) == 1:
+        return sift_single(all_requirements, rqs[0])
+    else:
+        return sift_multiple(all_requirements, rqs)
 
 
 def sift(requirements):
-    def sift_single(requirement):
-        if requirement.line_type == "CRSE":
-            return rqs[0].course_id
-        else:
-            if requirement.line_type == "RQ":
-                sifted_reqs.append("CLAWS")
-
     sifted_reqs = {}
     rq_groups = frozenset(map(lambda r: r.rq_group, requirements))
-    for rq_group in rq_groups:
-        rqs = list(filter(lambda r: r.rq_group == rq_group, requirements))
-        if len(rqs) == 1:
-            sifted_reqs[rq_group] = sift_single(rqs[0])
-        else:
-            pieces = map(sift_single, rqs)
-            operators = map(map_operator, rqs[:1])
-            parens = map(lambda r: r.parenth, rqs)
-    return list(filter(None, sifted_reqs))
+    for group in rq_groups:
+        rqs = tuple(filter(lambda r: r.rq_group == group, requirements))
+        sifted_reqs[group] = sift_rq_group(requirements, rqs)
+    return sifted_reqs
 
