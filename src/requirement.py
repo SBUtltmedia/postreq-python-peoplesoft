@@ -2,10 +2,11 @@ from src.utils import trim, trim_leading_zeroes
 
 
 class Requirement:
-    def __init__(self, rq_group, line_type, rqs_typ=None, rqrmnt=None, cond_code=None, operator=None, value=None,
+    def __init__(self, rq_group, key, line_type, rqs_typ=None, rqrmnt=None, cond_code=None, operator=None, value=None,
                  acad_group=None, subject=None, catalog=None, ptrn_type=None, course_id=None, designation=None,
                  conn=None, parenth=None):
         self.rq_group = trim_leading_zeroes(trim(rq_group))
+        self.key = trim(key)
         self.line_type = trim(line_type)
         self.rqs_typ = trim(rqs_typ)
         self.rqrmnt = trim(rqrmnt)
@@ -71,6 +72,7 @@ def sift_multiple(all_requirements, requirements):
 
 def sift_rq_group(all_requirements, group):
     rqs = tuple(filter(lambda r: r.rq_group == group, all_requirements))
+    rqs = sorted(rqs, key=lambda rq: int(rq.key))
     if len(rqs) == 1:
         return sift_single(all_requirements, rqs[0])
     else:
