@@ -39,9 +39,8 @@ def main():
     readable_requirements = replace_course_ids_with_catalog_numbers(sifted_requirements, courses)
     courses_with_requirements = match_requirements_to_courses(readable_requirements, courses)
 
-    with open('output.json', 'w') as outfile:
+    with open('output/requirements.json', 'w') as outfile:
         json.dump(courses_with_requirements, outfile, indent=2)
-
 
 #cProfile.run('main()')
 main()
