@@ -25,6 +25,9 @@ class Course(AbstractCourse):
     def __repr__(self):
         return self.subject + " " + self.catalog
 
+    def __lt__(self, other):
+        return str(self) < str(other)
+
 
 class CourseGroup(AbstractCourse):
     def __init__(self, course_id, courses):
@@ -37,10 +40,13 @@ class CourseGroup(AbstractCourse):
     def __repr__(self):
         return "(%s)" % (" %s " % OR).join(tuple(map(lambda c: str(c), self.courses)))
 
+    def __eq__(self, other):
+        return self.course_id == other.course_id and sorted(self.courses) == sorted(other.courses)
+
 
 def group_courses(courses):
     grouped_courses = []
-    course_ids = frozenset(map(lambda c: c.course_id, courses))
+    course_ids = sorted(frozenset(map(lambda c: c.course_id, courses)))
     for course_id in course_ids:
         courses_in_group = tuple(filter(lambda c: c.course_id == course_id, courses))
         if len(courses_in_group) == 1:

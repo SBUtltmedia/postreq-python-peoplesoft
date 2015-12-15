@@ -13,7 +13,7 @@ class CourseTestCase(unittest.TestCase):
             CourseGroup(course_id="111111", courses=courses[:2]),
             courses[2]
         )
-        self.assertEqual(expected, group_courses(courses))
+        self.assertTupleEqual(expected, group_courses(courses))
 
 
 if __name__ == '__main__':
