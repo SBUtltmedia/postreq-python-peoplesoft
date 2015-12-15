@@ -1,7 +1,5 @@
 import csv
-
 from src.course import Course
-
 from src.requirement import Requirement
 
 

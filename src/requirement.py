@@ -57,7 +57,7 @@ def sift_multiple(all_requirements, requirements):
     pieces = tuple(map(lambda r: sift_single(all_requirements, r), requirements))
     conns = tuple(map(map_conn, requirements))
     parens = tuple(map(lambda r: r.parenth, requirements))
-    string = "("
+    string = ""
     for i, piece in enumerate(pieces):
         if piece:
             if parens[i] == "(":
@@ -66,7 +66,7 @@ def sift_multiple(all_requirements, requirements):
             string += piece
             if parens[i] == ")":
                 string += ")"
-    return string + ")"
+    return string
 
 
 def sift_rq_group(all_requirements, group):
