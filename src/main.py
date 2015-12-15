@@ -1,6 +1,6 @@
 from src.csv_reader import read_courses, read_requirements
+from src.json_writer import write_pretty, write_minified
 from src.requirement import sift
-import json
 #import cProfile
 
 
@@ -13,9 +13,9 @@ def get_course_reqs(requirements, course):
 
 def match_reqs_to_course(requirements, course):
     return {
-        "course_id": course.course_id,
+        "id": course.course_id,
         "course": str(course),
-        "requirements": get_course_reqs(requirements, course)
+        "reqs": get_course_reqs(requirements, course)
     }
 
 
@@ -32,18 +32,15 @@ def replace_course_ids_with_names(requirements, courses):
     return {group: f(reqs) for group, reqs in requirements.items()}
 
 
-def write(data):
-    with open('output/requirements.json', 'w') as outfile:
-        json.dump(data, outfile, indent=2)
-
-
 def main():
     courses = read_courses()
     reqs = read_requirements()
     sifted_reqs = sift(reqs)
     readable_reqs = replace_course_ids_with_names(sifted_reqs, courses)
     courses_with_reqs = match_reqs_to_courses(readable_reqs, courses)
-    write(sorted(courses_with_reqs, key=lambda c: c['course']))
+    sorted_courses_with_reqs = sorted(courses_with_reqs, key=lambda c: c['course'])
+    write_pretty(sorted_courses_with_reqs, 'output/requirements.json')
+    write_minified(sorted_courses_with_reqs, 'output/requirements.min.json')
 
 #cProfile.run('main()')
 main()
