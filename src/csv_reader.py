@@ -18,7 +18,7 @@ class ReqGroupDetails:
 
     class Column:
         RQ_GROUP = 0
-        KEY = 2
+        LINE = 3
         LINE_TYPE = 4
         RQS_TYP = 7
         RQRMNT = 8
@@ -58,7 +58,7 @@ def read_requirements():
         for line in reader:
             requirements.append(Requirement(
                 rq_group=line[ReqGroupDetails.Column.RQ_GROUP],
-                key=line[ReqGroupDetails.Column.KEY],
+                line=line[ReqGroupDetails.Column.LINE],
                 line_type=line[ReqGroupDetails.Column.LINE_TYPE],
                 rqs_typ=line[ReqGroupDetails.Column.RQS_TYP],
                 rqrmnt=line[ReqGroupDetails.Column.RQRMNT],
