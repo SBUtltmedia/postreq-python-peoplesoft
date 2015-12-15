@@ -61,9 +61,9 @@ def sift_multiple(all_requirements, requirements):
     string = ""
     for i, piece in enumerate(pieces):
         if piece:
+            string += conns[i]
             if parens[i] == "(":
                 string += "("
-            string += conns[i]
             string += piece
             if parens[i] == ")":
                 string += ")"

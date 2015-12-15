@@ -49,6 +49,6 @@ class MyTestCase(unittest.TestCase):
         )
         self.assertEqual({"123": "555555 | (123456 & 444444)", "456": "444444", "789": "555555"}, sift(requirements))
     '''
-    
+
 if __name__ == '__main__':
     unittest.main()

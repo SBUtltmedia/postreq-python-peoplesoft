@@ -14,7 +14,7 @@ def get_requirement(requirements, course):
 def match_requirements_to_course(requirements, course):
     return {
         "course_id": course.course_id,
-        "name": str(course),
+        "course": str(course),
         "requirements": get_requirement(requirements, course)
     }
 
