@@ -24,6 +24,14 @@ class Requirement:
         self.parenth = trim(parenth)
 
 
+def get_prereqs(requirements):
+    return tuple(filter(lambda r: r.rqs_typ == "PRE", requirements))
+
+
+def get_coreqs(requirements):
+    return tuple(filter(lambda r: r.rqs_typ == "CO", requirements))
+
+
 def map_conn(requirement):
     if requirement.conn == "AND":
         return " %s " % AND
@@ -34,8 +42,6 @@ def map_conn(requirement):
 
 
 def sift_single(all_requirements, requirement):
-    if requirement.rqs_typ == "CO":
-        return "CO"
     if requirement.line_type == "CRSE":
         return requirement.course_id
     if requirement.line_type == "RQ":
