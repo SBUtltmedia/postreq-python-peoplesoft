@@ -16,14 +16,6 @@ class RequirementTestCase(unittest.TestCase):
         )
         self.assertEqual({"123": "123456 & 789012"}, sift_reqs(requirements))
 
-    def test_course_and_group(self):
-        requirements = (
-            Requirement(rq_group="123", line="2", line_type="RQ", rqs_typ="PRE", operator="EQ", conn="AND", rqrmnt="456"),
-            Requirement(rq_group="123", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="123456"),
-            Requirement(rq_group="456", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
-        )
-        self.assertEqual({"123": "123456 & 444444", "456": "444444"}, sift_reqs(requirements))
-
     def test_condition(self):
         requirements = (
             Requirement(rq_group="123", line="1", line_type="COND", cond_code="LVL", value="U4", operator="EQ"),
@@ -37,6 +29,22 @@ class RequirementTestCase(unittest.TestCase):
             Requirement(rq_group="34", line="3", line_type="COND", value="U4", operator="EQ", conn="AND"),
         )
         self.assertEqual({"34": "(AMR2MAJ | AMRBA) & U4"}, sift_reqs(requirements))
+
+    def test_course_and_group(self):
+        requirements = (
+            Requirement(rq_group="123", line="2", line_type="RQ", rqs_typ="PRE", operator="EQ", conn="AND", rqrmnt="456"),
+            Requirement(rq_group="123", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="123456"),
+            Requirement(rq_group="456", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
+        )
+        self.assertEqual({"123": "123456 & 444444", "456": "444444"}, sift_reqs(requirements))
+
+    def test_nested_group(self):
+        requirements = (
+            Requirement(rq_group="123", line="1", line_type="RQ", rqs_typ="PRE", operator="EQ", rqrmnt="456"),
+            Requirement(rq_group="456", line="1", line_type="RQ", rqs_typ="PRE", operator="EQ", rqrmnt="789"),
+            Requirement(rq_group="789", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
+        )
+        self.assertEqual({"123": "444444", "456": "444444", "789": "444444"}, sift_reqs(requirements))
 
     '''
     def test_complex_expr(self):

@@ -10,7 +10,7 @@ class Requirement:
         self.line = trim(line)
         self.line_type = trim(line_type)
         self.rqs_typ = trim(rqs_typ)
-        self.rqrmnt = trim(rqrmnt)
+        self.rqrmnt = trim_leading_zeroes(trim(rqrmnt))
         self.cond_code = trim(cond_code)
         self.operator = trim(operator)
         self.value = trim(value)
@@ -34,6 +34,7 @@ def map_conn(requirement):
 
 
 def sift_single(all_requirements, requirement):
+    print(requirement.rq_group)
     if requirement.line_type == "CRSE":
         return requirement.course_id
     if requirement.line_type == "RQ":
@@ -84,4 +85,3 @@ def sift_reqs(requirements):
     for group in rq_groups:
         sifted_reqs[group] = sift_rq_group(requirements, group)
     return sifted_reqs
-
