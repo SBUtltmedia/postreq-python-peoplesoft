@@ -54,3 +54,13 @@ def group_courses(courses):
         else:
             grouped_courses.append(CourseGroup(course_id, courses_in_group))
     return tuple(grouped_courses)
+
+
+def ungroup_courses(grouped_courses):
+    courses = []
+    for grouped_course in grouped_courses:
+        if type(grouped_course) == CourseGroup:
+            courses += grouped_course.courses
+        else:
+            courses += [grouped_course]
+    return tuple(courses)

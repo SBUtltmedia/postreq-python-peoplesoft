@@ -1,11 +1,11 @@
 from src.csv_reader import read_courses, read_requirements
 from src.json_writer import write_pretty, write_minified
 from src.requirement import sift_reqs
-from src.course import group_courses
+from src.course import group_courses, ungroup_courses
 #import cProfile
 
 
-def match_reqs_to_course(requirements, course):
+def create_course_object(requirements, course):
     return {
         "id": course.course_id,
         "course": str(course),
@@ -14,7 +14,7 @@ def match_reqs_to_course(requirements, course):
 
 
 def match_reqs_to_courses(requirements, courses):
-    return tuple(map(lambda c: match_reqs_to_course(requirements, c), courses))
+    return tuple(map(lambda c: create_course_object(requirements, c), courses))
 
 
 def replace_course_ids_with_names(requirements, courses):
@@ -32,8 +32,9 @@ def main():
     sifted_reqs = sift_reqs(reqs)
     grouped_courses = group_courses(courses)
     readable_reqs = replace_course_ids_with_names(sifted_reqs, grouped_courses)
-    courses_with_reqs = match_reqs_to_courses(readable_reqs, grouped_courses)
-    sorted_courses_with_reqs = sorted(courses_with_reqs, key=lambda c: c['course'])
+    courses_with_reqs = match_reqs_to_courses(readable_reqs, courses)
+    ungrouped_courses_with_reqs = ungroup_courses(courses_with_reqs)
+    sorted_courses_with_reqs = sorted(ungrouped_courses_with_reqs, key=lambda c: c['course'])
     write_pretty(sorted_courses_with_reqs, 'output/requirements.json')
     write_minified(sorted_courses_with_reqs, 'output/requirements.min.json')
 
