@@ -34,7 +34,8 @@ def map_conn(requirement):
 
 
 def sift_single(all_requirements, requirement):
-    print(requirement.rq_group)
+    if requirement.rqs_typ == "CO":
+        return "CO"
     if requirement.line_type == "CRSE":
         return requirement.course_id
     if requirement.line_type == "RQ":
