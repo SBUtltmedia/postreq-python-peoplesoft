@@ -8,10 +8,14 @@ from collections import OrderedDict
 
 def create_course_object(course, prereqs, coreqs):
     d = OrderedDict()
+    course_prereqs = course.find_reqs(prereqs)
+    course_coreqs = course.find_reqs(coreqs)
     d['id'] = course.course_id
     d['course'] = str(course)
-    d['prereqs'] = course.find_reqs(prereqs)
-    d['coreqs'] = course.find_reqs(coreqs)
+    if course_prereqs:
+        d['prereqs'] = course.find_reqs(prereqs)
+    if course_coreqs:
+        d['coreqs'] = course.find_reqs(coreqs)
     return d
 
 
@@ -29,6 +33,7 @@ def replace_course_ids_with_names(requirements, courses):
 
 
 def main():
+    print("Converting CSV files to JSON...")
     reqs = read_requirements()
     prereqs = get_prereqs(reqs)
     coreqs = get_coreqs(reqs)
