@@ -7,15 +7,19 @@ def create_dir(path):
         os.makedirs(os.path.dirname(path))
 
 
-def write(data, file, indent=None, separators=None):
-    create_dir(file)
-    with open(file, 'w+') as outfile:
+def output(data):
+    return json.dumps(data)
+
+
+def write(data, path, indent=None, separators=None):
+    create_dir(path)
+    with open(path, 'w+') as outfile:
         json.dump(data, outfile, indent=indent, separators=separators)
 
 
-def write_pretty(data, file):
-    write(data, file, indent=2)
+def write_pretty(data, path):
+    write(data, path, indent=2)
 
 
-def write_minified(data, file):
-    write(data, file, separators=(',', ':'))
+def write_minified(data, path):
+    write(data, path, separators=(',', ':'))

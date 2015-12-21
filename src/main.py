@@ -2,16 +2,17 @@ from src.csv_reader import read_courses, read_requirements
 from src.json_writer import write_pretty, write_minified
 from src.requirement import sift_reqs, get_coreqs, get_prereqs
 from src.course import group_courses, ungroup_courses
+from collections import OrderedDict
 #import cProfile
 
 
 def create_course_object(course, prereqs, coreqs):
-    return {
-        "id": course.course_id,
-        "course": str(course),
-        "prereqs": course.find_reqs(prereqs),
-        "coreqs": course.find_reqs(coreqs)
-    }
+    d = OrderedDict()
+    d['id'] = course.course_id
+    d['course'] = str(course)
+    d['prereqs'] = course.find_reqs(prereqs)
+    d['coreqs'] = course.find_reqs(coreqs)
+    return d
 
 
 def match_reqs_to_courses(prereqs, coreqs, courses):
