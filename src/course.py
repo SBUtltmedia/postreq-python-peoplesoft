@@ -1,4 +1,7 @@
 from abc import abstractmethod
+
+from tqdm import tqdm
+
 from src.utils import trim, trim_leading_zeroes
 from src.settings import OR
 
@@ -47,7 +50,7 @@ class CourseGroup(AbstractCourse):
 def group_courses(courses):
     grouped_courses = []
     course_ids = sorted(frozenset(map(lambda c: c.course_id, courses)))
-    for course_id in course_ids:
+    for course_id in tqdm(course_ids):
         courses_in_group = tuple(filter(lambda c: c.course_id == course_id, courses))
         if len(courses_in_group) == 1:
             grouped_courses.append(courses_in_group[0])

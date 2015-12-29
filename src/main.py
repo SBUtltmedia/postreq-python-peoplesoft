@@ -33,7 +33,6 @@ def replace_course_ids_with_names(requirements, courses):
 
 
 def main():
-    print("Converting CSV files to JSON...")
     reqs = read_requirements()
     prereqs = get_prereqs(reqs)
     coreqs = get_coreqs(reqs)
