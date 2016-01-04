@@ -52,21 +52,17 @@ def sift_single(all_requirements, requirement):
     if requirement.line_type == "CRSW":
         if requirement.designation is not None:
             return requirement.designation
-        elif requirement.subject is not None:
-            return requirement.subject + " " + (requirement.catalog if requirement.catalog is not None else "")
-        elif requirement.acad_group is not None:
-            if requirement.catalog is not None:
-                return requirement.acad_group + " " + requirement.catalog
-            elif requirement.subject is not None:
-                return requirement.acad_group + " " + requirement.subject
+        else:
+            return " ".join([(requirement.subject if requirement.subject is not None else ""),
+                             (requirement.catalog if requirement.catalog is not None else "###")])
     #raise Exception("Requirement " + requirement.rq_group)
     return requirement.cond_code
 
 
 def sift_multiple(all_requirements, requirements):
-    pieces = tuple(map(lambda r: sift_single(all_requirements, r), requirements))
-    conns = tuple(map(map_conn, requirements))
-    parens = tuple(map(lambda r: r.parenth, requirements))
+    pieces = [sift_single(all_requirements, r) for r in requirements]
+    conns = [map_conn(r) for r in requirements]
+    parens = [r.parenth for r in requirements]
     string = ""
     for i, piece in enumerate(pieces):
         if piece:
@@ -74,7 +70,7 @@ def sift_multiple(all_requirements, requirements):
             string += "(" if parens[i] == "(" else ""
             string += piece
             string += ")" if parens[i] == ")" else ""
-    return string
+    return "(%s)" % string if len(pieces) > 1 else string
 
 
 def sift_rq_group(all_requirements, group):
@@ -88,7 +84,7 @@ def sift_rq_group(all_requirements, group):
 
 def sift_reqs(requirements):
     sifted_reqs = {}
-    rq_groups = frozenset(map(lambda r: r.rq_group, requirements))
+    rq_groups = frozenset([r.rq_group for r in requirements])
     for group in rq_groups:
         sifted_reqs[group] = sift_rq_group(requirements, group)
     return sifted_reqs

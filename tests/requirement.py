@@ -14,7 +14,7 @@ class RequirementTestCase(unittest.TestCase):
             Requirement(rq_group="123", line="1", line_type="CRSE", rqs_typ="PRE", course_id="123456", operator="EQ"),
             Requirement(rq_group="123", line="2", line_type="CRSE", rqs_typ="PRE", course_id="789012", operator="EQ", conn="AND"),
         )
-        self.assertEqual({"123": "123456 & 789012"}, sift_reqs(requirements))
+        self.assertEqual({"123": "(123456 & 789012)"}, sift_reqs(requirements))
 
     def test_condition(self):
         requirements = (
@@ -28,7 +28,7 @@ class RequirementTestCase(unittest.TestCase):
             Requirement(rq_group="34", line="2", line_type="COND", value="AMRBA", operator="EQ", conn="OR", parenth=")"),
             Requirement(rq_group="34", line="3", line_type="COND", value="U4", operator="EQ", conn="AND"),
         )
-        self.assertEqual({"34": "(AMR2MAJ | AMRBA) & U4"}, sift_reqs(requirements))
+        self.assertEqual({"34": "((AMR2MAJ | AMRBA) & U4)"}, sift_reqs(requirements))
 
     def test_course_and_group(self):
         requirements = (
@@ -36,7 +36,7 @@ class RequirementTestCase(unittest.TestCase):
             Requirement(rq_group="123", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="123456"),
             Requirement(rq_group="456", line="1", line_type="CRSE", rqs_typ="PRE", operator="EQ", course_id="444444")
         )
-        self.assertEqual({"123": "123456 & 444444", "456": "444444"}, sift_reqs(requirements))
+        self.assertEqual({"123": "(123456 & 444444)", "456": "444444"}, sift_reqs(requirements))
 
     def test_nested_group(self):
         requirements = (

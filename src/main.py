@@ -20,7 +20,7 @@ def create_course_object(course, prereqs, coreqs):
 
 
 def match_reqs_to_courses(prereqs, coreqs, courses):
-    return tuple(map(lambda c: create_course_object(c, prereqs, coreqs), courses))
+    return [create_course_object(c, prereqs, coreqs) for c in courses]
 
 
 def replace_course_ids_with_names(requirements, courses):
